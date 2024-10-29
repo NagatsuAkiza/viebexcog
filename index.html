@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viebex🐻‍❄️</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="shortcut icon" href="/img/vb.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .modal-header {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chat-bubble {
+      background-color: #e1ffc7;
+      border-radius: 20px;
+      padding: 10px;
+      margin: 5px 0;
+      max-width: 75%;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .chat-bubble.show {
+      opacity: 1;
+    }
+
+    .message-sender {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .sender-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sender-info img {
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="position-relative">
+      <img src="/img/bnvb.jpg" class="img-fluid mb-2" alt="banner">
+
+      <button id="notification-button" class="button-30 position-absolute top-0 end-0 m-2" style="display: none;">
+        <img src="img/bell.svg" class="position-relative img-fluid" alt="">
+        <span class="notification-ping"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="messageModalLabel">Kotak Pesan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="sender-info mb-3">
+            <img src="/img/ganesna.png" alt="Avatar" class="rounded-circle" width="50" height="50">
+            <span class="message-sender">Nagatsu Akiza</span>
+          </div>
+          <div class="d-flex flex-column gap-2">
+            <div id="messageContainer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="notificationSound" src="/sound/pop.wav" preload="auto"></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const notificationButton = document.getElementById("notification-button");
+      const messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
+      const messageContainer = document.getElementById("messageContainer");
+      const notificationSound = document.getElementById("notificationSound");
+
+      notificationButton.style.display = "block";
+
+      const messages = [
+        `🎉 Wahhhh, selamat yaa atas debutnyaa, kamu hebat sudah sampai di titik inii 💪💪 semangat terus streaming nyaa wkwkwk`,
+        "Aku gk tau mau ngasih pesan apaan lagi :v",
+        "Pokoknya selamat atas debutnya yaa!!",
+        "hehe"
+      ];
+
+      function showMessages() {
+        // Clear previous messages
+        messageContainer.innerHTML = '';
+
+        messages.forEach((message, index) => {
+          setTimeout(() => {
+            const chatBubble = document.createElement('div');
+            chatBubble.classList.add('chat-bubble');
+            chatBubble.textContent = message;
+
+            messageContainer.appendChild(chatBubble);
+
+            notificationSound.currentTime = 0;
+            notificationSound.play();
+
+            setTimeout(() => {
+              chatBubble.classList.add('show');
+            }, 50);
+
+          }, index * 3000);
+        });
+      }
+
+      notificationButton.addEventListener("click", function () {
+        const notificationPing = notificationButton.querySelector(".notification-ping");
+        if (notificationPing) {
+          notificationPing.style.display = "none";
+        }
+
+        messageModal.show();
+        showMessages();
+      });
+    });
+  </script>
+</body>
+
+</html>
